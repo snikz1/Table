@@ -9,12 +9,16 @@ purchaseApp.config(['$routeProvider',
                 templateUrl: 'tpls/purchaseController.html',
                 controller: 'purchaseController'
             });
-        $routeProvider.when('/test', {
-                templateUrl: 'tpls/test.html',
-                controller: 'test'
+        $routeProvider.when('/consumption', {
+                templateUrl: 'tpls/consumptionController.html',
+                controller: 'consumptionController'
+            });
+        $routeProvider.when('/common', {
+                templateUrl: 'tpls/commonController.html',
+                controller: 'commonController'
             });
 
         $routeProvider.otherwise({
-                redirectTo: 'tpls/test.html'
+                redirectTo: 'tpls/purchaseController.html'
             });
     }]);

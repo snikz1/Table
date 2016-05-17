@@ -1,0 +1,37 @@
+
+<div  ng-controller="commonController">
+
+
+    <div class="container-fluid">
+
+        <div class=" page page-header">
+
+            <h1> Статистика
+
+            </h1>
+        </div>
+        <div class="panel">
+
+
+            <div align="right" ></div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Предмет</th>
+                    <th>Цена</th>
+                    <th>Total: {{total}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in event_space ">
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+
+                    <!--<td><input type="checkbox" ng-model="item.done" /></td>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

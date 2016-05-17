@@ -1,4 +1,9 @@
 .navBox{
-    height: 100%;
-    background-color: black;
+    padding-left: 800px;
+    color: black;
+}
+
+.page{
+
+    width:800px;
 }
