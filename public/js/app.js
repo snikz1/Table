@@ -1,5 +1,4 @@
-var purchaseApp = angular.module("purchaseApp", ['ngRoute',
-    'purchaseAppController'
+var purchaseApp = angular.module("purchaseApp", ['ngRoute','ngMessages','angularValidator',    'purchaseAppController'
 ]);
 
 purchaseApp.config(['$routeProvider',
@@ -22,3 +21,4 @@ purchaseApp.config(['$routeProvider',
                 redirectTo: 'tpls/purchaseController.html'
             });
     }]);
+

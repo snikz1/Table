@@ -1,52 +1,67 @@
-
-<div  ng-controller="consumptionController">
+<div ng-controller="consumptionController">
 
 
     <div class="container-fluid">
 
         <div class=" page page-header">
 
-            <h1> Расход
-
-            </h1>
+            <h1> Расход </h1> <span class="total-sum"><b>Total: {{total}}</b></span>
         </div>
         <div class="panel">
+            <form name="putForm" class="css-form" ng-submit="addEvent(putForm.$invalid);" novalidate>
 
-            <div class="form-inline">
-                <div class="form-group">
-                    <div class="col-md-8">
-                        <input name="name" class="form-control" ng-model="newEvent.name" placeholder = "Название" />
+                <div class="form-inline">
+                    <div class="form-group " ng-class="{'has-error':putForm.name.$invalid && submitted}">
+
+                        <input type="text" name="name" class="form-control" ng-model="newEvent.name"
+                               ng-minlength="3" placeholder="Название" required/>
+
+                        <p class="error-label" ng-show="putForm.name.$error.minlength"> Too short</p>
+
+                        <p class="error-label" ng-show="putForm.name.$error.required">This field is required</p>
+
+                    </div>
+                    <div class="form-group " ng-class="{'has-error':putForm.price.$invalid && submitted}">
+                        <input type="number" name="price" class="form-control" ng-model="newEvent.price"
+                               ng-pattern="/^(0|[1-9][0-9]*)$/" placeholder="Цена" required/>
+                        <span class="error-label" ng-show="putForm.price.$error.pattern">Not a valid number !</span>
+                        <span class="error-label" ng-show="putForm.price.$error.required">This field is required</span>
+
+                    </div>
+                    <div class="form-group"
+                         ng-class="{'has-error': putForm.description.$invalid && submitted}">
+                        <textarea type="text" name="description" class="form-control" min-words="3" ng-model="newEvent.description"
+                                  required placeholder="Description"></textarea>
+                        <p class="error-label" ng-show="putForm.description.$error.minWords"> Too short</p>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <button type="submit" ng-click="submitted=true" class="btn btn-default">Добавить
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <input name="money" type="number" class="form-control" ng-model="newEvent.price" placeholder="Цена" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-8">
-                        <button class="btn btn-default" ng-click="addEvent(newEvent);newEvent={}">Добавить</button>
-                    </div>
-                </div>
+
+            </form>
+            <div class="table-simple">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Предмет</th>
+                        <th>Цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in event_space ">
+                        <td>{{item.name}}</td>
+                        <td>{{item.price}}</td>
+
+                        <!--<td><input type="checkbox" ng-model="item.done" /></td>-->
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div align="right" ></div>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Предмет</th>
-                    <th>Цена</th>
-                    <th>Total: {{total}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in event_space ">
-                    <td>{{item.name}}</td>
-                    <td>{{item.price}}</td>
-
-                    <!--<td><input type="checkbox" ng-model="item.done" /></td>-->
-                </tr>
-                </tbody>
-            </table>
         </div>
 
     </div>

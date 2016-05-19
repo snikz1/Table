@@ -1,9 +1,44 @@
-.navBox{
-    padding-left: 800px;
+.navBox {
+    padding-left:330px;
     color: black;
 }
 
-.page{
+.page {
 
-    width:800px;
+    width: 800px;
+}
+
+.css-form input.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}
+.errors{
+    position: absolute;
+    color: red;
+}
+.error-label {
+    position: absolute;
+    color: red;
+    display: none;
+}
+.default input {
+    border:1px solid grey ;
+}
+.has-error input {
+    border: 1px solid red;
+}
+
+.has-error .error-label {
+    display: block;
+}
+
+div.table-simple {
+    padding-top: 30px;
+
+}
+
+span.total-sum {
+    position: absolute;
+    padding-left:700px;
+    margin-top: -30px;
+
 }

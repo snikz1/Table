@@ -1,35 +1,32 @@
-
-
 var purchaseAppcontroller = angular.module('purchaseAppController', []);
 
 
-purchaseAppcontroller.controller("purchaseController", ['$scope','$http', function ($scope, $http) {
+purchaseAppcontroller.controller("purchaseController", ['$scope', '$http', function ($scope, $http) {
 
 
     $scope.event_space = [];
 
     console.log($scope.event_space);
-    $scope.addEvent = function(newEvent){
-        $http.post('/arrival', newEvent).success(function(resp){
-            console.log(resp);
-            $scope.event_space.push({name:resp.name , price: resp.price})
+    $scope.newEvent = {};
+    $scope.addEvent = function (invalidForm) {
+        if (invalidForm) return;
+        $scope.submitted = false;
+        $http.post('/arrival', $scope.newEvent).success(function (resp) {
+            $scope.event_space.push({name: resp.name, price: resp.price, description: resp.description});
+            $scope.newEvent = {};
         });
-
-        //var price = parseFloat(newEvent.price);
-        //if (newEvent.name != ""&& !isNaN(price) ) {
-        //    $scope.event_space.push({name : newEvent.name , price : newEvent.price});
-        //}
     };
 
     function total() {  //цикл динамического добавления суммы
         var totalNumber = 0;
-        for(var i=0; i<$scope.event_space.length; i++){
+        for (var i = 0; i < $scope.event_space.length; i++) {
             totalNumber = totalNumber + parseFloat($scope.event_space[i].price)
         }
 
         return totalNumber;
     }
-    $scope.$watchCollection("event_space", function() {  // следит за изменением объектов
+
+    $scope.$watchCollection("event_space", function () {  // следит за изменением объектов
         $scope.total = total();
 
 
@@ -38,29 +35,32 @@ purchaseAppcontroller.controller("purchaseController", ['$scope','$http', functi
 
 }]);
 
-purchaseAppcontroller.controller("consumptionController", ['$scope', function ($scope) {
 
-
+purchaseAppcontroller.controller("consumptionController", ['$scope', '$http', function ($scope, $http) {
     $scope.event_space = [];
 
     console.log($scope.event_space);
-    $scope.addEvent = function(newEvent){
-        var price = parseFloat(newEvent.price);
-        if (newEvent.name != ""&& !isNaN(price) ) {
-            $scope.event_space.push({name : newEvent.name , price : newEvent.price});
-
-        }
+    $scope.newEvent = {};
+    $scope.addEvent = function (invalidForm) {
+        if (invalidForm) return;
+        $scope.submitted = false;
+        $http.post('/arrival', $scope.newEvent).success(function (resp) {
+            $scope.event_space.push({name: resp.name, price: resp.price, description: resp.description});
+            $scope.newEvent = {};
+        });
     };
+
 
     function total() {  //цикл динамического добавления суммы
         var totalNumber = 0;
-        for(var i=0; i<$scope.event_space.length; i++){
+        for (var i = 0; i < $scope.event_space.length; i++) {
             totalNumber = totalNumber + parseFloat($scope.event_space[i].price)
         }
 
         return totalNumber;
     }
-    $scope.$watchCollection("event_space", function() {  // следит за изменением объектов
+
+    $scope.$watchCollection("event_space", function () {  // следит за изменением объектов
         $scope.total = total();
 
 
@@ -68,21 +68,51 @@ purchaseAppcontroller.controller("consumptionController", ['$scope', function ($
 
 }]);
 
+purchaseAppcontroller.controller("commonController", ['$scope', '$http', function ($scope, $http) {
 
 
-purchaseAppcontroller.controller("commonController", ['$scope','$http', function ($scope,$http) {
+    $scope.showEvent = function () {
 
-
-
-    $scope.showEvent = function (){
-        $http.get('/common').success(function(resp){
+        $http.get('/common').success(function (resp) {
             $scope.event_space = resp;
-            console.log(  resp)
 
         })
+    };
+    $scope.showEvent();
+
+    function total() {  //цикл динамического добавления суммы
+        var totalNumber = 0;
+        for (var i = 0; i < $scope.event_space.length; i++) {
+            totalNumber = totalNumber + parseFloat($scope.event_space[i].price)
+        }
+
+        return totalNumber;
     }
 
+    $scope.$watchCollection("event_space", function () {  // следит за изменением объектов
+        $scope.total = total();
+    });
 
 }]);
 
+purchaseAppcontroller.directive('minWords', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attr, ngModel) {
+            var isValid = function (s) {
+                return (s || '').split(" ").length >= parseInt(attr.minWords);
+            };
+            ngModel.$parsers.unshift(function (value) {
+                ngModel.$setValidity('minWords', isValid(value));
+                return value;
+
+            });
+            //For model -> DOM validation
+            ngModel.$formatters.unshift(function (value) {
+                ngModel.$setValidity('minWords', isValid(value));
+                return value;
+            });
+        }
+    };
+});
 

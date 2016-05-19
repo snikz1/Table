@@ -1,25 +1,21 @@
-
-<div  ng-controller="commonController">
+<div ng-controller="commonController">
 
 
     <div class="container-fluid">
 
         <div class=" page page-header">
 
-            <h1> Статистика
-
-            </h1>
+            <h1> Статистика </h1> <span class="total-sum"><b>Total: {{total}}</b></span>
         </div>
-        <div class="panel">
+        <div class="panel" ng-model="">
 
 
-            <div align="right" ></div>
+            <div align="right"></div>
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Предмет</th>
                     <th>Цена</th>
-                    <th>Total: {{total}}</th>
                 </tr>
                 </thead>
                 <tbody>

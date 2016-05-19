@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var swig = require('swig');
 var mongoose = require('mongoose');
 var Statistics = require('./models/statistics').Statistics;
+var StatisticsPurchase = require('./models/statistics').StatisticsPurchase;
+var StatisticsConsumption = require('./models/statistics').StatisticsConsumption;
 mongoose.connect('mongodb://localhost/test2');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
@@ -15,14 +17,14 @@ app.set('views', __dirname + '/views');
 app.use(express.static('public'));
 
 
-app.get('/',function(req,res){
+app.get('/', function (req, res) {
     res.render('index');
 });
 
-app.get('/common',function(req,res){
+app.get('/common', function (req, res) {
 
 
-    Statistics.find({},function(err,statica){
+    Statistics.find({}, function (err, statica) {
 
         res.jsonp(statica);
         //statica.forEach(function(staticas){
@@ -31,22 +33,53 @@ app.get('/common',function(req,res){
     })
 });
 
-app.post('/arrival',function(req,res){
-    console.log(req.body.name,req.body.price);
+app.post('/arrival', function (req, res) {
+    console.log(req.body.name, req.body.price);
 
     var statica = new Statistics({
         price: req.body.price,
-        name: req.body.name
+        name: req.body.name,
+        description:req.body.description
+    });
+
+    statica.save(function (err) {
+        if (err)
+            throw err;
+
+        else res.jsonp(statica);
+    });
+
+    //
+    //statica.create({
+    //}).exec(function(err, createdSt){
+    //    res.jsonp(createdSt)
+    //})
+});
+app.post('/consumption', function (req, res) {
+    console.log(req.body.name, req.body.price);
+
+    var statica = new Statistics({
+        price: req.body.price,
+        name: req.body.name,
+        description:req.body.description
 
     });
 
-    statica.save(function(err){
-    if (err)
+    statica.save(function (err) {
+        if (err)
+            throw err;
+
+        else res.jsonp(statica);
+    });
+    var staticaConsumption = new StatisticsConsumption({
+        price: req.body.price,
+        name: req.body.name,
+        description:req.body.description
+    });
+    staticaConsumption.save(function(err){
+        if(err)
         throw err;
-
-       else res.jsonp(statica);
     });
-
     //
     //statica.create({
     //}).exec(function(err, createdSt){
